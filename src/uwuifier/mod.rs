@@ -1,3 +1,5 @@
+use rand::seq::SliceRandom;
+use rand::Rng;
 use std::collections::HashMap;
 
 pub struct UwUifier {
@@ -24,6 +26,7 @@ impl UwUifier {
     pub fn uwuify(&self, input: &str) -> String {
         let mut output = String::with_capacity(input.len());
         let words: Vec<&str> = input.split_whitespace().collect();
+        let mut rng = rand::thread_rng();
 
         for word in words {
             let (base_word, punctuation) = utils::split_word_punctuation(word);
@@ -33,9 +36,25 @@ impl UwUifier {
                 transformations::apply_character_transformations(&transformed_word);
             let word_with_stutter =
                 transformations::apply_stutter(self.stutter_probability, &transformed_word);
+
             output.push_str(&word_with_stutter);
             output.push_str(&punctuation);
+
+            if rng.gen_bool(self.emoji_probability) {
+                if let Some(emoji) = self.emoticons.choose(&mut rng) {
+                    output.push(' ');
+                    output.push_str(emoji);
+                }
+            }
+
             output.push(' ');
+
+            if rng.gen_bool(self.emoji_probability) {
+                if let Some(interjection) = self.interjections.choose(&mut rng) {
+                    output.push_str(interjection);
+                    output.push(' ');
+                }
+            }
         }
 
         output.trim_end().to_string()

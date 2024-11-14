@@ -1,4 +1,8 @@
 pub fn split_word_punctuation(word: &str) -> (String, String) {
+    if word.is_empty() {
+        return (String::new(), String::new());
+    }
+
     let mut chars = word.chars().peekable();
     let mut base_word = String::new();
     let mut punctuation = String::new();

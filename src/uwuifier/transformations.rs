@@ -56,6 +56,10 @@ pub fn apply_character_transformations(input: &str) -> String {
 }
 
 pub fn apply_stutter(stutter_probability: f64, word: &str) -> String {
+    if word.is_empty() {
+        return String::new();
+    }
+
     if rand::thread_rng().gen_bool(stutter_probability) {
         let first_char = word.chars().next().unwrap_or_default();
         format!("{}-{}", first_char, word)
