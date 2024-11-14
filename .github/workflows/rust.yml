@@ -24,10 +24,13 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
 
-      - name: Install Clippy
+      - name: Install necessary Rust components
         run: |
           rustup component add clippy
-
+          rustup component add rustfmt
+          rustup component add rust-src
+          rustup component add llvm-tools-preview # Optional: Useful for `cargo-flamegraph` or `cargo-tarpaulin`
+      
       - name: Build
         run: cargo build --verbose
 
