@@ -1,4 +1,3 @@
-use rand::seq::SliceRandom;
 use rand::Rng;
 use std::collections::HashMap;
 
@@ -24,6 +23,54 @@ impl UwUifier {
     }
 
     pub fn uwuify(&self, input: &str) -> String {
+        let mut output = String::with_capacity(input.len());
+        let words: Vec<&str> = input.split_whitespace().collect();
+
+        for word in words {
+            let (base_word, punctuation) = Self::split_word_punctuation(word);
+            let transformed_word = self.apply_custom_mappings(&base_word);
+            let transformed_word = self.apply_character_transformations(&transformed_word);
+            let word_with_stutter = self.apply_stutter(&transformed_word);
+            output.push_str(&word_with_stutter);
+            output.push_str(&punctuation);
+            output.push(' ');
+        }
+
+        output.trim_end().to_string()
+    }
+
+    fn split_word_punctuation(word: &str) -> (String, String) {
+        let mut chars = word.chars().peekable();
+        let mut base_word = String::new();
+        let mut punctuation = String::new();
+
+        while let Some(&c) = chars.peek() {
+            if c.is_alphanumeric() {
+                base_word.push(c);
+                chars.next();
+            } else {
+                break;
+            }
+        }
+
+        while let Some(c) = chars.next() {
+            punctuation.push(c);
+        }
+
+        (base_word, punctuation)
+    }
+
+    fn apply_custom_mappings(&self, word: &str) -> String {
+        if let Some(replacement) = self.custom_map.get(word) {
+            replacement.clone()
+        } else if let Some(emoji) = self.emoji_map.get(word) {
+            emoji.clone()
+        } else {
+            word.to_string()
+        }
+    }
+
+    fn apply_character_transformations(&self, input: &str) -> String {
         let mut output = String::with_capacity(input.len());
         let mut chars = input.chars().peekable();
 
@@ -72,46 +119,11 @@ impl UwUifier {
                         output.push(c);
                     }
                 }
-                '!' | '?' | '.' => {
-                    output.push(c);
-                    output.push(' ');
-                    if rand::thread_rng().gen_bool(self.emoji_probability) {
-                        output.push_str(
-                            self.emoticons
-                                .choose(&mut rand::thread_rng())
-                                .unwrap_or(&"uwu"),
-                        );
-                    } else {
-                        output.push_str(
-                            self.interjections
-                                .choose(&mut rand::thread_rng())
-                                .unwrap_or(&"uwu"),
-                        );
-                    }
-                }
                 _ => output.push(c),
             }
         }
 
-        let mut final_output = String::with_capacity(output.len());
-        for word in output.split_whitespace() {
-            let transformed_word = self.apply_custom_mappings(word);
-            let word_with_stutter = self.apply_stutter(&transformed_word);
-            final_output.push_str(&word_with_stutter);
-            final_output.push(' ');
-        }
-
-        final_output.trim_end().to_string()
-    }
-
-    fn apply_custom_mappings(&self, word: &str) -> String {
-        if let Some(replacement) = self.custom_map.get(word) {
-            return replacement.clone();
-        }
-        if let Some(emoji) = self.emoji_map.get(word) {
-            return emoji.clone();
-        }
-        word.to_string()
+        output
     }
 
     fn apply_stutter(&self, word: &str) -> String {
@@ -148,13 +160,26 @@ impl UwUifier {
     }
 
     pub fn leetify(&self, input: &str) -> String {
+        let leet_map = [
+            ('a', '4'),
+            ('e', '3'),
+            ('i', '1'),
+            ('l', '1'),
+            ('o', '0'),
+            ('t', '7'),
+            ('s', '5'),
+        ];
         input
-            .replace("a", "4")
-            .replace("e", "3")
-            .replace("l", "1")
-            .replace("o", "0")
-            .replace("t", "7")
-            .replace("s", "5")
+            .chars()
+            .map(|c| {
+                let lower_c = c.to_ascii_lowercase();
+                leet_map
+                    .iter()
+                    .find(|&&(k, _)| k == lower_c)
+                    .map(|&(_, v)| v)
+                    .unwrap_or(c)
+            })
+            .collect()
     }
 
     pub fn reverse_text(&self, input: &str) -> String {

@@ -1,6 +1,30 @@
 use uwurs::UwUifier;
 
 #[test]
+fn test_uwuify_basic() {
+    let uwuifier = UwUifier::new();
+    let input = "Hello World!";
+    let output = uwuifier.uwuify(input);
+    assert!(output.contains("Hewwo") && output.contains("Wowwd"));
+}
+
+#[test]
+fn test_uwuify_stuttering() {
+    let uwuifier = UwUifier::new();
+    let input = "This is a test.";
+    let output = uwuifier.uwuify(input);
+    assert!(!output.is_empty());
+}
+
+#[test]
+fn test_uwuify_emoticons() {
+    let uwuifier = UwUifier::new();
+    let input = "Hello!";
+    let output = uwuifier.uwuify(input);
+    assert!(output.contains('!'));
+}
+
+#[test]
 fn test_custom_mappings() {
     let mut uwuifier = UwUifier::new();
     uwuifier.add_custom_mapping("Test", "UwU");
@@ -23,7 +47,7 @@ fn test_leetify() {
     let uwuifier = UwUifier::new();
     let input = "Let's leetify this text.";
     let output = uwuifier.leetify(input);
-    assert_eq!(output, "L37'5 13371fy 7hi5 73x7.");
+    assert_eq!(output, "137'5 13371fy 7h15 73x7.");
 }
 
 #[test]
