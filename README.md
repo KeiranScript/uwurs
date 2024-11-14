@@ -1,11 +1,20 @@
 # uwurs
 ### UwUify your strings with uwurs! This Rust library transforms text into the playful "UwU" style by applying various character transformations, adding stutters, leetifying text, and more.
 
+*This documentation corresponds to uwurs version 0.3.1*
+
 ```toml
 [dependencies]
 uwurs = "0.3.1"
 rand = "0.8.5"
 ```
+
+## Quick Start
+- Install by adding to `Cargo.toml` or via `cargo add uwurs`
+- Import and create an instance of UwUifier.
+- Transform your text using provided methods.
+- Customize settings and mappings as desired.
+- Enjoy UwUifying your text!
 
 ## Usage
 ### Creating an Instance
@@ -90,9 +99,9 @@ Associate words with emojis:
 uwuifier.add_emoji_mapping("happy", "😊");
 ```
 
-API Reference
-UwUifier Struct
-Rust
+## API Reference
+### UwUifier Struct
+```Rust
 pub struct UwUifier {
     pub emoticons: Vec<&'static str>,
     pub interjections: Vec<&'static str>,
@@ -101,53 +110,85 @@ pub struct UwUifier {
     pub custom_map: HashMap<String, String>,
     pub emoji_map: HashMap<String, String>,
 }
-Methods
+```
+
+### Methods
+
+Create a new UwUifier instance with default settings
+```rust
 new() -> Self
-Creates a new UwUifier instance with default settings.
+```
 
+Transform the input string into UwU style
+```rust
 uwuify(&self, input: &str) -> String
-Transforms the input string into UwU style.
+```
 
+Set the probability for stuttering
+```rust
 set_stutter_probability(&mut self, probability: f64)
-Sets the probability for stuttering.
+```
 
+Set the probability for adding emojis
+```rust
 set_emoji_probability(&mut self, probability: f64)
-Sets the probability for adding emojis.
+```
 
+Add a new emoticon to the list
+```rust
 add_emoticon(&mut self, emoticon: &'static str)
-Adds a new emoticon to the list.
+```
 
+Add a new interjection
+```rust
 add_interjection(&mut self, interjection: &'static str)
-Adds a new interjection.
+```
 
+Add a custom word mapping
+```rust
 add_custom_mapping(&mut self, from: &str, to: &str)
-Adds a custom word mapping.
+```
 
+Associate a word with an emoji
+```rust
 add_emoji_mapping(&mut self, word: &str, emoji: &str)
-Associates a word with an emoji.
+```
 
+Convert the input string to leet speak
+```rust
 leetify(&self, input: &str) -> String
-Converts the input string to leet speak.
+```
 
+Reverse the input string
+```rust
 reverse_text(&self, input: &str) -> String
-Reverses the input string.
+```
 
-Transformation Functions
+### Transformation Functions
+Transform specific characters to UwU style
+```rust
 apply_character_transformations
-Transforms specific characters to UwU style.
+```
 
+Add a stutter to a word based on probability
+```rust
 apply_stutter
-Adds a stutter to a word based on probability.
+```
 
+Convert characters to their leet equivalents
+```rust
 leetify
-Converts characters to their leet equivalents.
+```
 
+Reverse the input string
+```rust
 reverse_text
-Reverses the input string.
+```
 
-Examples
-Basic Uwuification
-Rust
+## Examples
+### Basic Uwuification
+
+```Rust
 use uwurs::UwUifier;
 
 fn main() {
@@ -155,10 +196,12 @@ fn main() {
     let input = "I love programming!";
     let uwuified = uwuifier.uwuify(input);
     println!("{}", uwuified);
-    // Possible Output: "I wove pwogwamming!"
 }
-Custom Mappings and Emojis
-Rust
+```
+
+### Custom Mappings and Emojis
+
+```Rust
 use uwurs::UwUifier;
 
 fn main() {
@@ -169,10 +212,12 @@ fn main() {
     let input = "Hello, my friend! I am happy.";
     let uwuified = uwuifier.uwuify(input);
     println!("{}", uwuified);
-    // Possible Output: "Hewwo, my fwiend! I am happy 😊."
 }
-Leetify and Reverse Text
-Rust
+```
+
+### Leetify and Reverse Text
+
+```Rust
 use uwurs::UwUifier;
 
 fn main() {
@@ -180,147 +225,22 @@ fn main() {
     
     let leet = uwuifier.leetify("Leetify this text.");
     println!("{}", leet);
-    // Output: "1337ify th15 73xt."
     
     let reversed = uwuifier.reverse_text("Reverse this.");
     println!("{}", reversed);
-    // Output: ".siht esreveR"
 }
-License
-This project is licensed under the MIT License.
+```
 
-Authors
-Keiran - KeiranScript
-Repository
-GitHub Repository
-Documentation
-Homepage
-Contact
-For any inquiries or support, please contact keiran0@proton.me.
-
-Contributing
+## Contributing
 Contributions are welcome! Please submit a pull request or open an issue on the GitHub Repository.
 
-Acknowledgments
-Thanks to the Rust community for their continuous support and contributions.
-Versioning
-This documentation corresponds to uwurs version 0.3.1.
-
-Changelog
-[0.3.1] - 2024-04-27
-Initial release with core UwUification features.
-Future Improvements
-Add more customization options for transformations.
-Improve performance for large text inputs.
-Expand emoji and emoticon libraries.
-Support
-If you encounter any issues or have suggestions for improvements, feel free to open an issue on the GitHub repository.
-
-Badges
-
-
-
-Usage Examples in Code
-Example 1: Basic Usage
-Rust
-use uwurs::UwUifier;
-
-fn main() {
-    let uwuifier = UwUifier::new();
-    let text = "Hello, world!";
-    let uwu_text = uwuifier.uwuify(text);
-    println!("{}", uwu_text);
-}
-Example 2: Customizing UwUifier
-Rust
-use uwurs::UwUifier;
-
-fn main() {
-    let mut uwuifier = UwUifier::new();
-    uwuifier.add_custom_mapping("Rust", "Ruwst");
-    uwuifier.add_emoji_mapping("Rust", "🦀");
-    uwuifier.set_stutter_probability(0.2);
-    uwuifier.set_emoji_probability(0.3);
-
-    let text = "I love Rust programming.";
-    let uwu_text = uwuifier.uwuify(text);
-    println!("{}", uwu_text);
-}
-Example 3: Using Transformation Functions
-Rust
-use uwurs::UwUifier;
-
-fn main() {
-    let uwuifier = UwUifier::new();
-
-    let leet = uwuifier.leetify("Hello, World!");
-    println!("{}", leet); // H3ll0, W0rld!
-
-    let reversed = uwuifier.reverse_text("Hello, World!");
-    println!("{}", reversed); // !dlroW ,olleH
-}
-Contribution Guidelines
 If you'd like to contribute to uwurs, please follow these steps:
 
-Fork the repository.
-Create a new branch for your feature or bugfix.
-Commit your changes with clear messages.
-Submit a pull request detailing your changes.
-Please ensure that your code follows the project's coding standards and includes appropriate tests.
+- Fork the repository.
+- Create a new branch for your feature or bugfix.
+- Commit your changes with clear messages.
+- Submit a pull request detailing your changes.
+- Please ensure that your code follows the project's coding standards and includes appropriate tests.
 
-Support and Feedback
-Your feedback is valuable! If you encounter any issues or have suggestions for new features, please open an issue on GitHub.
-
-Related Projects
-rand - Random number generation used for stutter and emoji probabilities.
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-Contact Information
-Author: Keiran
-Email: keiran0@proton.me
-Website: https://keiran.cc/uwurs
-Conclusion
-uwurs provides a fun and customizable way to transform your text into the beloved UwU style. Whether you're looking to add flair to your messages or just have fun with text transformations, uwurs has you covered!
-
-Quick Start
-Install by adding to Cargo.toml.
-Import and create an instance of UwUifier.
-Transform your text using provided methods.
-Customize settings and mappings as desired.
-Enjoy UwUifying your text!
-
-Screenshots
-Coming soon!
-
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-Acknowledgements
-Inspired by the fun and creative nature of internet culture.
-Future Work
-Expand transformation rules for more varied UwU styles.
-Integrate with other text processing libraries.
-FAQs
-Q: How can I customize the transformations?
-
-A: Use methods like add_custom_mapping and add_emoji_mapping to define your own rules.
-
-Q: Is uwurs thread-safe?
-
-A: Yes, as long as you manage instances appropriately in concurrent contexts.
-
-Q: Can I use uwurs in WebAssembly projects?
-
-A: Yes, uwurs is compatible with WebAssembly.
-
-Support
-For support, please open an issue on the GitHub Repository.
-
-Version History
-0.3.1: Initial release with core UwUification features.
-Contact
-For more information, visit the homepage or contact keiran0@proton.me.
-
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## License
+### This project is licensed under the MIT License.
