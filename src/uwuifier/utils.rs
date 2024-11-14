@@ -12,7 +12,7 @@ pub fn split_word_punctuation(word: &str) -> (String, String) {
         }
     }
 
-    while let Some(c) = chars.next() {
+    for c in chars {
         punctuation.push(c);
     }
 

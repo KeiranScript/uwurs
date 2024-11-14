@@ -74,6 +74,12 @@ impl UwUifier {
     }
 }
 
+impl Default for UwUifier {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 pub mod mappings;
 pub mod transformations;
 pub mod utils;
