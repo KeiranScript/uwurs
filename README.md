@@ -1,110 +1,246 @@
-# 🌸 uwurs 🌸
+# uwurs
+### UwUify your strings with uwurs! This Rust library transforms text into the playful "UwU" style by applying various character transformations, adding stutters, leetifying text, and more.
 
-**uwurs** is a super cute Rust library that transforms your text into adorable "uwuified" versions! 🥰 It changes your sentences to mimic a playful and affectionate style, perfect for adding a touch of kawaii to your projects! ✨
-
-## ✨ Features ✨
-
-- **Substituwutions**:<br>
-    Changes letters like `r` and `l` to `w` 💖
-- **Transfowomations**:<br>
-    Transforms words like `na` and `no` into `nya` and `nyo` for extra cuteness! 🥺
-- **Puwunctuation**:<br>
-    Adds expressions like `uwu` and `owo` after punctuation marks! 😸
-- **Emowoticons**:
-    Sprinkles in lil emoticons and interjections to make your text super duper expressive!! (・`ω´・)
-- **S-S-Stutters!**: Randomly adds stutters to words to make them sound shy and precious! 🥰
-
-## 🌷 Installation 🌷
-
-Add **uwurs** to your `Cargo.toml` dependencies:
+*This documentation corresponds to uwurs version 0.3.1*
 
 ```toml
 [dependencies]
-uwurs = "0.1.0"
-rand = "0.8"  # For extra randomness! ✨
+uwurs = "0.3.1"
+rand = "0.8.5"
 ```
 
-Or install via Cargo:
+## Quick Start
+- Install by adding to `Cargo.toml` or via `cargo add uwurs`
+- Import and create an instance of UwUifier.
+- Transform your text using provided methods.
+- Customize settings and mappings as desired.
+- Enjoy UwUifying your text!
 
-```sh
-cargo add uwurs
-```
+## Usage
+### Creating an Instance
+To start using uwurs, create a new instance of UwUifier:
 
-## 🍡 Usage 🍡
-
-```rust
-use uwurs::uwuify;
+```Rust
+use uwurs::UwUifier;
 
 fn main() {
+    let uwuifier = UwUifier::new();
     let input = "Hello, world!";
-    let uwuified = uwuify(input);
+    let uwuified = uwuifier.uwuify(input);
     println!("{}", uwuified);
 }
 ```
 
-Possible output:
+### Uwuify Text
+Transform a string into UwU style:
 
-```rust
-Hewwo, wowwd! owo
-```
-
-## 🎀 Examples 🎀
-
-`Example 1`
-```rust
-let input = "Let's write some Rust code!";
-let uwuified = uwuify(input);
+```Rust
+let input = "This is a test.";
+let uwuified = uwuifier.uwuify(input);
 println!("{}", uwuified);
 ```
+### Leetify Text
+Convert text to leet speak:
 
-`Possible output`
-
-```rust
-Wet's wwite some Wust code! uwu (・`ω´・)
+```Rust
+let input = "Leetify this text.";
+let leet = uwuifier.leetify(input);
+println!("{}", leet);
 ```
 
-<br>
+### Reverse Text
+Reverse the characters in a string:
 
-`Example 2`
-```rust
-let input = "Programming is fun!";
-let uwuified = uwuify(input);
-println!("{}", uwuified);
+```Rust
+let input = "Reverse this.";
+let reversed = uwuifier.reverse_text(input);
+println!("{}", reversed);
 ```
 
-`Possible output`
+## Configuration
+### Setting Stutter Probability
+Adjust the probability of adding stutters to words:
 
 ```rust
-Pwogwamming is fun! >w<
+uwuifier.set_stutter_probability(0.2); // 20% chance
 ```
 
-## 🌸 Customisation 🌸
-
-I plan to add more and more parameters to the `uwuify` function to allow for customisation of the uwuification process! 🌟
-
-There are also more functions in the works to provide even more ways to uwuify your text! 🥰
-
-## 💖 Testing 💖
-
-We have a suite of tests to ensure that the uwuification process is as cute and accurate as possible! 🌈
-
-e.g.
+### Setting Emoji Probability
+Adjust the probability of adding emojis:
 
 ```rust
-#[test]
-fn test_uwuify_basic() {
-    let input = "Hello, World!";
-    let output = uwuify(input);
-    assert!(output.contains("Hewwo") && output.contains("Wowwd"));
+uwuifier.set_emoji_probability(0.3); // 30% chance
+```
+
+### Adding Emoticons
+Add custom emoticons to the UwUifier:
+
+```rust
+uwuifier.add_emoticon("(* ^ ω ^)");
+```
+
+### Adding Interjections
+Add custom interjections:
+
+```rust
+uwuifier.add_interjection("nya");
+```
+### Adding Custom Mappings
+Define custom word mappings:
+
+```rust
+uwuifier.add_custom_mapping("hello", "hewwo");
+```
+
+### Adding Emoji Mappings
+Associate words with emojis:
+
+```rust
+uwuifier.add_emoji_mapping("happy", "😊");
+```
+
+## API Reference
+### UwUifier Struct
+```Rust
+pub struct UwUifier {
+    pub emoticons: Vec<&'static str>,
+    pub interjections: Vec<&'static str>,
+    pub stutter_probability: f64,
+    pub emoji_probability: f64,
+    pub custom_map: HashMap<String, String>,
+    pub emoji_map: HashMap<String, String>,
 }
 ```
 
-## 🌟 Contributing 🌟
+### Methods
 
-Contributions are always welcome! Feel free to open issues or PRs if you have any suggestions or ideas! 🎉
+Create a new UwUifier instance with default settings
+```rust
+new() -> Self
+```
 
-Please check that your code passes the tests and that the documentation is up-to-date! 📚
+Transform the input string into UwU style
+```rust
+uwuify(&self, input: &str) -> String
+```
 
-## 📜 License 📜
+Set the probability for stuttering
+```rust
+set_stutter_probability(&mut self, probability: f64)
+```
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 🌸
+Set the probability for adding emojis
+```rust
+set_emoji_probability(&mut self, probability: f64)
+```
+
+Add a new emoticon to the list
+```rust
+add_emoticon(&mut self, emoticon: &'static str)
+```
+
+Add a new interjection
+```rust
+add_interjection(&mut self, interjection: &'static str)
+```
+
+Add a custom word mapping
+```rust
+add_custom_mapping(&mut self, from: &str, to: &str)
+```
+
+Associate a word with an emoji
+```rust
+add_emoji_mapping(&mut self, word: &str, emoji: &str)
+```
+
+Convert the input string to leet speak
+```rust
+leetify(&self, input: &str) -> String
+```
+
+Reverse the input string
+```rust
+reverse_text(&self, input: &str) -> String
+```
+
+### Transformation Functions
+Transform specific characters to UwU style
+```rust
+apply_character_transformations
+```
+
+Add a stutter to a word based on probability
+```rust
+apply_stutter
+```
+
+Convert characters to their leet equivalents
+```rust
+leetify
+```
+
+Reverse the input string
+```rust
+reverse_text
+```
+
+## Examples
+### Basic Uwuification
+
+```Rust
+use uwurs::UwUifier;
+
+fn main() {
+    let uwuifier = UwUifier::new();
+    let input = "I love programming!";
+    let uwuified = uwuifier.uwuify(input);
+    println!("{}", uwuified);
+}
+```
+
+### Custom Mappings and Emojis
+
+```Rust
+use uwurs::UwUifier;
+
+fn main() {
+    let mut uwuifier = UwUifier::new();
+    uwuifier.add_custom_mapping("friend", "fwiend");
+    uwuifier.add_emoji_mapping("happy", "😊");
+    
+    let input = "Hello, my friend! I am happy.";
+    let uwuified = uwuifier.uwuify(input);
+    println!("{}", uwuified);
+}
+```
+
+### Leetify and Reverse Text
+
+```Rust
+use uwurs::UwUifier;
+
+fn main() {
+    let uwuifier = UwUifier::new();
+    
+    let leet = uwuifier.leetify("Leetify this text.");
+    println!("{}", leet);
+    
+    let reversed = uwuifier.reverse_text("Reverse this.");
+    println!("{}", reversed);
+}
+```
+
+## Contributing
+Contributions are welcome! Please submit a pull request or open an issue on the GitHub Repository.
+
+If you'd like to contribute to uwurs, please follow these steps:
+
+- Fork the repository.
+- Create a new branch for your feature or bugfix.
+- Commit your changes with clear messages.
+- Submit a pull request detailing your changes.
+- Please ensure that your code follows the project's coding standards and includes appropriate tests.
+
+## License
+### This project is licensed under the MIT License.
