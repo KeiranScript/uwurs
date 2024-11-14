@@ -2,6 +2,13 @@
 name = "uwurs"
 version = "0.1.0"
 edition = "2021"
+description = "UwUify your strings with uwurs!"
+license = "MIT"
+authors = ["Keiran keiran0@proton.me"]
+repository = "https://github.com/KeiranScript/uwurs"
+documentation = "https://docs.rs/uwurs"
+homepage = "https://keiran.cc/uwurs"
+readme = "README.md"
 
 [dependencies]
 rand = "0.8.5"
