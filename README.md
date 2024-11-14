@@ -4,11 +4,15 @@
 
 ## ✨ Features ✨
 
-- **Cute Letter Substitutions**: Changes letters like `r` and `l` to `w` to create that classic uwu sound! 💖
-- **Adorable Word Modifications**: Transforms words like `na` and `no` into `nya` and `nyo` for extra cuteness! 🥺
-- **Punctuation Enhancements**: Adds sweet expressions like `uwu` and `owo` after punctuation marks! 😸
-- **Random Emoticons & Interjections**: Sprinkles in kawaii emoticons and interjections to make your text super expressive! (・`ω´・)
-- **Endearing Stutter Effect**: Randomly adds stutters to words to make them sound shy and precious! 🥰
+- **Substituwutions**:<br>
+    Changes letters like `r` and `l` to `w` 💖
+- **Transfowomations**:<br>
+    Transforms words like `na` and `no` into `nya` and `nyo` for extra cuteness! 🥺
+- **Puwunctuation**:<br>
+    Adds expressions like `uwu` and `owo` after punctuation marks! 😸
+- **Emowoticons**:
+    Sprinkles in lil emoticons and interjections to make your text super duper expressive!! (・`ω´・)
+- **S-S-Stutters!**: Randomly adds stutters to words to make them sound shy and precious! 🥰
 
 ## 🌷 Installation 🌷
 
@@ -46,47 +50,37 @@ Hewwo, wowwd! owo
 
 ## 🎀 Examples 🎀
 
+`Example 1`
 ```rust
 let input = "Let's write some Rust code!";
 let uwuified = uwuify(input);
 println!("{}", uwuified);
 ```
 
-Possible output:
+`Possible output`
 
 ```rust
 Wet's wwite some Wust code! uwu (・`ω´・)
 ```
+
+<br>
+
+`Example 2`
 ```rust
 let input = "Programming is fun!";
 let uwuified = uwuify(input);
 println!("{}", uwuified);
 ```
 
-Possible output:
+`Possible output`
 
 ```rust
 Pwogwamming is fun! >w<
 ```
 
-## 🌼 How It Works 🌼
-
-- Letter Magic:
-`r` or `l` -> `w`
-`R` or `L` -> `W`
-
-- Combos!!
-`n` + `a`/`o` -> `ny` + `a`/`o` (e.g. `na` -> `nya`, `no` -> `nyo`)
-
-- Punctuation:
-Adds `owo`, `uwu` or cute emoticons after `?`/`!`/`.`
-
-- Stutters:
-Randomly adds stutters to words for extra adorableness! (e.g. `hello` -> `h-hewwo`)
-
 ## 🌸 Customisation 🌸
 
-I plan to add more and more positional arguments to the `uwuify` function to allow for customisation of the uwuification process! 🌟
+I plan to add more and more parameters to the `uwuify` function to allow for customisation of the uwuification process! 🌟
 
 There are also more functions in the works to provide even more ways to uwuify your text! 🥰
 
