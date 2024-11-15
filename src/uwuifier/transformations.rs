@@ -1,4 +1,21 @@
+use super::*;
 use rand::Rng;
+use regex;
+
+#[derive(Debug)]
+pub enum TransformationError {
+    InvalidInput(String),
+    TransformationFailed(String),
+    RegexError(regex::Error),
+}
+
+impl From<regex::Error> for TransformationError {
+    fn from(err: regex::Error) -> TransformationError {
+        TransformationError::RegexError(err)
+    }
+}
+
+pub type Result<T> = std::result::Result<T, TransformationError>;
 
 pub fn apply_character_transformations(input: &str) -> String {
     let mut output = String::with_capacity(input.len());
@@ -106,4 +123,22 @@ pub fn random_caps(input: &str) -> String {
             }
         })
         .collect()
+}
+
+pub fn add_regex_mapping(
+    regex_mappings: &mut Vec<(regex::Regex, String)>,
+    pattern: &str,
+    replacement: &str,
+) -> Result<()> {
+    let re = regex::Regex::new(pattern)?;
+    regex_mappings.push((re, replacement.to_string()));
+    Ok(())
+}
+
+pub fn apply_regex_mappings(input: &str, regex_mappings: &[(regex::Regex, String)]) -> String {
+    let mut output = input.to_string();
+    for (re, replacement) in regex_mappings {
+        output = re.replace_all(&output, replacement.as_str()).to_string();
+    }
+    output
 }

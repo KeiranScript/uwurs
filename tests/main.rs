@@ -1,4 +1,4 @@
-use uwurs::uwuifier::{UwUifier, UwUifierError};
+use uwurs::uwuifier::{transformations, UwUifier, UwUifierError};
 
 #[test]
 fn test_uwuify_basic() {
@@ -111,4 +111,46 @@ fn test_uwuify_valid_input() {
     let result = uwuifier.uwuify(input);
     assert!(result.is_ok());
     assert!(result.unwrap().contains("Hewwo"));
+}
+
+#[test]
+fn test_apply_character_transformations() {
+    let input = "Hello World!";
+    let output = transformations::apply_character_transformations(input);
+    assert!(output.contains("Hewwo") || output.contains("Wowwd"));
+}
+
+#[test]
+fn test_apply_stutter() {
+    let input = "test";
+    let output = transformations::apply_stutter(1.0, input);
+    assert_eq!(output, "t-test");
+}
+
+#[test]
+fn test_apply_stutter_no_stutter() {
+    let input = "test";
+    let output = transformations::apply_stutter(0.0, input);
+    assert_eq!(output, "test");
+}
+
+#[test]
+fn test_add_regex_mapping() {
+    let mut regex_mappings = vec![];
+    let pattern = r"hello";
+    let replacement = "hewwo";
+    let result = transformations::add_regex_mapping(&mut regex_mappings, pattern, replacement);
+    assert!(result.is_ok());
+    assert_eq!(regex_mappings.len(), 1);
+}
+
+#[test]
+fn test_apply_regex_mappings() {
+    let mut regex_mappings = vec![];
+    let pattern = r"hello";
+    let replacement = "hewwo";
+    transformations::add_regex_mapping(&mut regex_mappings, pattern, replacement).unwrap();
+    let input = "hello world!";
+    let output = transformations::apply_regex_mappings(input, &regex_mappings);
+    assert_eq!(output, "hewwo world!");
 }

@@ -1,5 +1,6 @@
 use rand::seq::SliceRandom;
 use rand::Rng;
+use regex;
 use std::collections::HashMap;
 
 pub struct UwUifier {
@@ -9,6 +10,7 @@ pub struct UwUifier {
     pub emoji_probability: f64,
     pub custom_map: HashMap<String, String>,
     pub emoji_map: HashMap<String, String>,
+    pub regex_mappings: Vec<(regex::Regex, String)>,
 }
 
 pub enum TransformationType {
@@ -22,6 +24,13 @@ pub enum TransformationType {
 pub enum UwUifierError {
     InvalidInput(String),
     TransformationFailed(String),
+    RegexError(regex::Error),
+}
+
+impl From<regex::Error> for UwUifierError {
+    fn from(err: regex::Error) -> UwUifierError {
+        UwUifierError::RegexError(err)
+    }
 }
 
 pub type Result<T> = std::result::Result<T, UwUifierError>;
@@ -35,6 +44,7 @@ impl UwUifier {
             emoji_probability: 0.5,
             custom_map: HashMap::new(),
             emoji_map: HashMap::new(),
+            regex_mappings: Vec::new(),
         }
     }
 
@@ -114,7 +124,7 @@ impl UwUifier {
     }
 
     pub fn add_custom_mapping(&mut self, from: &str, to: &str) {
-        mappings::add_custom_mapping(&mut self.custom_map, from, to);
+        mappings::add_custom_mapping(&mut self.custom_map, from, to).unwrap();
     }
 
     pub fn get_custom_map(&self) -> &HashMap<String, String> {
@@ -122,11 +132,17 @@ impl UwUifier {
     }
 
     pub fn add_emoji_mapping(&mut self, word: &str, emoji: &str) {
-        mappings::add_emoji_mapping(&mut self.emoji_map, word, emoji);
+        mappings::add_emoji_mapping(&mut self.emoji_map, word, emoji).unwrap();
     }
 
     pub fn get_emoji_map(&self) -> &HashMap<String, String> {
         &self.emoji_map
+    }
+
+    pub fn add_regex_mapping(&mut self, pattern: &str, replacement: &str) -> Result<()> {
+        let re = regex::Regex::new(pattern)?;
+        self.regex_mappings.push((re, replacement.to_string()));
+        Ok(())
     }
 
     pub fn leetify(&self, input: &str) -> Result<String> {
@@ -154,6 +170,32 @@ impl UwUifier {
             ));
         }
         Ok(transformations::random_caps(input))
+    }
+
+    pub fn uppercase(&self, input: &str) -> String {
+        input.to_uppercase()
+    }
+
+    pub fn lowercase(&self, input: &str) -> String {
+        input.to_lowercase()
+    }
+
+    pub fn titlecase(&self, input: &str) -> String {
+        input
+            .split_whitespace()
+            .map(|word| {
+                let mut c = word.chars();
+                match c.next() {
+                    None => String::new(),
+                    Some(f) => f.to_uppercase().collect::<String>() + c.as_str(),
+                }
+            })
+            .collect::<Vec<_>>()
+            .join(" ")
+    }
+
+    pub fn batch_uwuify(&self, inputs: Vec<&str>) -> Vec<Result<String>> {
+        inputs.into_iter().map(|input| self.uwuify(input)).collect()
     }
 }
 
