@@ -11,6 +11,21 @@ pub struct UwUifier {
     pub emoji_map: HashMap<String, String>,
 }
 
+pub enum TransformationType {
+    UwUify,
+    Leetify,
+    ReverseText,
+    RandomCaps,
+}
+
+#[derive(Debug)]
+pub enum UwUifierError {
+    InvalidInput(String),
+    TransformationFailed(String),
+}
+
+pub type Result<T> = std::result::Result<T, UwUifierError>;
+
 impl UwUifier {
     pub fn new() -> Self {
         Self {
@@ -23,7 +38,13 @@ impl UwUifier {
         }
     }
 
-    pub fn uwuify(&self, input: &str) -> String {
+    pub fn uwuify(&self, input: &str) -> Result<String> {
+        if input.is_empty() {
+            return Err(UwUifierError::InvalidInput(
+                "Input string is empty".to_string(),
+            ));
+        }
+
         let mut output = String::with_capacity(input.len());
         let words: Vec<&str> = input.split_whitespace().collect();
         let mut rng = rand::thread_rng();
@@ -57,7 +78,7 @@ impl UwUifier {
             }
         }
 
-        output.trim_end().to_string()
+        Ok(output.trim_end().to_string())
     }
 
     pub fn set_stutter_probability(&mut self, probability: f64) {
@@ -108,16 +129,31 @@ impl UwUifier {
         &self.emoji_map
     }
 
-    pub fn leetify(&self, input: &str) -> String {
-        transformations::leetify(input)
+    pub fn leetify(&self, input: &str) -> Result<String> {
+        if input.is_empty() {
+            return Err(UwUifierError::InvalidInput(
+                "Input string is empty".to_string(),
+            ));
+        }
+        Ok(transformations::leetify(input))
     }
 
-    pub fn reverse_text(&self, input: &str) -> String {
-        transformations::reverse_text(input)
+    pub fn reverse_text(&self, input: &str) -> Result<String> {
+        if input.is_empty() {
+            return Err(UwUifierError::InvalidInput(
+                "Input string is empty".to_string(),
+            ));
+        }
+        Ok(transformations::reverse_text(input))
     }
 
-    pub fn random_caps(&self, input: &str) -> String {
-        transformations::random_caps(input)
+    pub fn random_caps(&self, input: &str) -> Result<String> {
+        if input.is_empty() {
+            return Err(UwUifierError::InvalidInput(
+                "Input string is empty".to_string(),
+            ));
+        }
+        Ok(transformations::random_caps(input))
     }
 }
 
