@@ -64,24 +64,48 @@ impl UwUifier {
         self.stutter_probability = probability;
     }
 
+    pub fn get_stutter_probability(&self) -> f64 {
+        self.stutter_probability
+    }
+
     pub fn set_emoji_probability(&mut self, probability: f64) {
         self.emoji_probability = probability;
+    }
+
+    pub fn get_emoji_probability(&self) -> f64 {
+        self.emoji_probability
     }
 
     pub fn add_emoticon(&mut self, emoticon: &'static str) {
         self.emoticons.push(emoticon);
     }
 
+    pub fn get_emoticons(&self) -> &Vec<&'static str> {
+        &self.emoticons
+    }
+
     pub fn add_interjection(&mut self, interjection: &'static str) {
         self.interjections.push(interjection);
+    }
+
+    pub fn get_interjections(&self) -> &Vec<&'static str> {
+        &self.interjections
     }
 
     pub fn add_custom_mapping(&mut self, from: &str, to: &str) {
         mappings::add_custom_mapping(&mut self.custom_map, from, to);
     }
 
+    pub fn get_custom_map(&self) -> &HashMap<String, String> {
+        &self.custom_map
+    }
+
     pub fn add_emoji_mapping(&mut self, word: &str, emoji: &str) {
         mappings::add_emoji_mapping(&mut self.emoji_map, word, emoji);
+    }
+
+    pub fn get_emoji_map(&self) -> &HashMap<String, String> {
+        &self.emoji_map
     }
 
     pub fn leetify(&self, input: &str) -> String {
@@ -90,6 +114,10 @@ impl UwUifier {
 
     pub fn reverse_text(&self, input: &str) -> String {
         transformations::reverse_text(input)
+    }
+
+    pub fn random_caps(&self, input: &str) -> String {
+        transformations::random_caps(input)
     }
 }
 

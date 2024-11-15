@@ -94,3 +94,16 @@ pub fn leetify(input: &str) -> String {
 pub fn reverse_text(input: &str) -> String {
     input.chars().rev().collect()
 }
+
+pub fn random_caps(input: &str) -> String {
+    input
+        .chars()
+        .map(|c| {
+            if rand::thread_rng().gen_bool(0.5) {
+                c.to_ascii_uppercase()
+            } else {
+                c
+            }
+        })
+        .collect()
+}

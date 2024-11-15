@@ -57,3 +57,39 @@ fn test_reverse_text() {
     let output = uwuifier.reverse_text(input);
     assert_eq!(output, "!dlroW olleH");
 }
+
+#[test]
+fn test_random_caps() {
+    let uwuifier = UwUifier::new();
+    let input = "Random caps test.";
+    let output = uwuifier.random_caps(input);
+    assert_ne!(output, input);
+}
+
+#[test]
+fn test_add_emoticon() {
+    let mut uwuifier = UwUifier::new();
+    uwuifier.add_emoticon("UwU");
+    assert!(uwuifier.get_emoticons().contains(&"UwU"));
+}
+
+#[test]
+fn test_add_interjection() {
+    let mut uwuifier = UwUifier::new();
+    uwuifier.add_interjection("nya");
+    assert!(uwuifier.get_interjections().contains(&"nya"));
+}
+
+#[test]
+fn test_set_stutter_probability() {
+    let mut uwuifier = UwUifier::new();
+    uwuifier.set_stutter_probability(0.3);
+    assert_eq!(uwuifier.get_stutter_probability(), 0.3);
+}
+
+#[test]
+fn test_set_emoji_probability() {
+    let mut uwuifier = UwUifier::new();
+    uwuifier.set_emoji_probability(0.7);
+    assert_eq!(uwuifier.get_emoji_probability(), 0.7);
+}
