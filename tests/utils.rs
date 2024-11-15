@@ -1,4 +1,4 @@
-use uwurs::utils::split_word_punctuation;
+use uwurs::uwuifier::utils::split_word_punctuation;
 
 #[test]
 fn test_split_word_punctuation_empty() {
